@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>DOM Traversal</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
 <link href="css/meyerReset.css" rel="stylesheet" type="text/css" media="screen">
 <link href="css/GOT_master.css" rel="stylesheet" type="text/css" media="screen">
 </head>
@@ -11,14 +12,14 @@
     <main>
 
     <section id="imageContainer">
-    	<div id="houseImages"> <!-- add in all of the images to make a scrolling "banner" -->
+    	<div id="houseImages" style="right: 0;"> <!-- add in all of the images to make a scrolling "banner" -->
     		<img src="images/stark.jpg"/>
     		<img src="images/baratheon.jpg"/>
     		<img src="images/lannister.jpg"/>
     		<img src="images/tully.jpg"/>
     		<img src="images/greyjoy.jpg"/>
     		<img src="images/arryn.jpg"/>
-        </div>
+      </div>
     </section>
 
     <nav id="bottomNav">
@@ -33,15 +34,24 @@
         </ul>
     </nav>
 
-    <h1>clever tagline goes here</h1><!-- replace this with the house name -->
+    <h1 id="house-name">clever tagline goes here</h1><!-- replace this with the house name -->
 
     <p class="house-info"></p><!-- replace this with house details (github gist) -->
 
     <section class="lightbox">
         <a href="#" class="close-lightbox">X</a>
 
-        <video controls class="house-video" src="video/House-Stark.mp4" type="video/mp4"></video>
+        <section class="video-controls">
+            <h5>custom vid controls</h5>
+            <i class="far fa-play-circle"></i>
+            <i class="fas fa-pause-circle"></i>
+            <i class="fas fa-backward"></i>
+        </section>
+
+        <video class="house-video" src="video/House-Stark.mp4" type="video/mp4"></video>
+        
     </section>
+
 </main>  <!--end mainContainer-->
 
 <script src="js/GOT_master.js"></script>
