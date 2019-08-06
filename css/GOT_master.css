@@ -88,6 +88,15 @@ main {
 
 .arryn { background-position:-253px -54px; }
 .arryn:hover { background-position:-253px 0px; }
+
+.frey { background-position: -304px -54px;}
+.frey:hover {background-position: -304px 0px;}
+
+.tyrell {background-position: -355px -54px;}
+.tyrell:hover {background-position: -355px 0px}
+
+.targaryen {background-position: -406px -54px;}
+.targaryen:hover {background-position: -406px 0px;}
 /* ----- end image sprite ----- */
 
 /* ----- classes for transitions ----- */
