@@ -14,7 +14,11 @@ body { background-image:url(../images/grungeBG.jpg);
 	background-repeat:no-repeat; background-position:center center;
 	background-color:#000000; font-size:16px; }
 
-h1 {
+	.hidden {
+		display: none;
+	}
+
+h3 {
 	font-family: 'GOT_font';
 	color:white;
 	margin-top:30px;
@@ -36,7 +40,7 @@ main {
 	overflow:hidden;
 }
 
-#houseImages { position:relative; width:4000px; transition: all .5s; }
+#houseImages { position:relative; width:5400px; transition: all .5s; }
 #houseImages img { float:left; }
 
 .house-info {
@@ -132,16 +136,9 @@ main {
   color: white;
 }
 
-
-
 video {
 	width: 85%;
-	margin: 3% auto 10% auto;
+	margin: 2% auto 1% auto;
 	border: thin solid #949393;
   display: block;
-}
-
-.video-controls i {
-	color: white;
-	font-size: 2em;
 }
