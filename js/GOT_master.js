@@ -7,13 +7,16 @@
         closeButton = document.querySelector('.close-lightbox'),
         houseVideo = document.querySelector('.house-video'),
         bannerImages = document.querySelector("#houseImages"),
-        houseName = document.querySelector("#house-name"),
+        familyName = document.querySelector("#house-name"),
         houseInfo = document.querySelector(".house-info"),
         pauseButton = document.querySelector(".pausebutton"),
-        playButton = document.querySelector(".playbutton");
+        playButton = document.querySelector(".playbutton"),
+        rewindButton = document.querySelector(".rewindbutton");
 
         // houseData is a multidimensional array (arrays within arrays!) Data containers can hold anything - in this case, each index or entry holds another, smaller container with 2 indexes - 1 with the house name, one with the house data.
         // when you click on a shield, the dataset.offset property is a 0 through 5 that's pointing at the main index of the houseData array (stark, baratheon, lannister etc). so the syntax becomes houseData[offset][0] for the house name, and houseData[offset][1] for the house data. Each gets assigned to the h1 and the paragraph tag
+  
+  let targetHouse = "";      
 
   const houseData = [ // houseData[0][0] -> this is the house name ("stark")
         // houseData[0][1] -> this is the house data
@@ -39,6 +42,8 @@
 
       ["frey", `House Frey of the Twins was the Great House of the Riverlands, having gained their position for their treachery against their former liege lords, House Tully, who were stripped of all their lands and titles for their rebellion against the Iron Throne; House Tully had supported the independence movement for the Kingdom of the North. The current head of the house is unknown following the assassinations of Lord Walder Frey and two of his sons, Lothar Frey and Walder Rivers, by the vengeful Arya Stark. This is made more complex by the subsequent assassination of all the male Freys soon after.`],
 
+      ["tyrell", `House Tyrell of Highgarden is an extinct Great House of Westeros. It ruled over the Reach, a vast, fertile, and heavily-populated region of southwestern Westeros, from their castle-seat of Highgarden as Lords Paramount of the Reach and Wardens of the South after taking control of the region from House Gardener during the Targaryen conquest.`],
+
       ["targaryen", `House Targaryen of Dragonstone is a Great House of Westeros and was the ruling royal House of the Seven Kingdoms for three centuries since it conquered and unified the realm, before it was deposed during Robert's Rebellion and House Baratheon replaced it as the new royal House. The few surviving Targaryens fled into exile to the Free Cities of Essos across the Narrow Sea. Currently based on Dragonstone off of the eastern coast of Westeros, House Targaryen seeks to retake the Seven Kingdoms from House Lannister, who formally replaced House Baratheon as the royal House following the destruction of the Great Sept of Baelor.`]
     ];
 
@@ -47,35 +52,60 @@
       // pause the video when the button is clicked
       houseVideo.pause();
     }
-
+    // play the video on click function
     function playVideo() {
       houseVideo.play();
     }
 
+    function rewindVideo() {
+      houseVideo.currentTime = 0; //rewind the video
+    }
+
     // write other fucntions for custom video controls(play, volume control, time counter progress bar scrubber, etc)
+
+    function animateBanners() {
+      // we need an offset that we can multiply by to animate
+      // our banners to the left and make the active one show up
+  
+      let offset = 600,
+          multiplier = this.dataset.offset;
+          // this is the data-offset custom data attribute
+          // on each of the sigils
+      console.log((offset * multiplier) + "px");
+  
+      // move the banners to the left using the product of our math
+      bannerImages.style.right = `${offset * multiplier + "px"}`;
+
+      // grab a reference to the current vid in the className object
+      //debugger;
+      //get the className property, split it into its seperate words[an array],
+      //then get the last word --> [1] --> that will always be the house name
+      let houseName = this.className.split(" ")[1];
+  
+       //change the house name on the page at the same time
+      // houseName.textContent = "House " + houseData[multiplier];
+
+      // capitalize first letter with JS string methods
+      targetHouse = houseName.charAt(0).toUpperCase() + houseName.slice(1);
+    //B aratheon --> slice(1)
+  
+      // the multiplier is the outer array index (and also the data-offset custom attribute on
+      // the html element -> the shield you're clicking on);
+      // the second [] is the INNER array reference (see waaaaay up at the top) -> 0 is the house name, 1 is the house data
+      familyName.textContent = `House ${houseData[multiplier][0]}`;
+      houseInfo.textContent = houseData[multiplier][1];
+    }
+
   function popLightBox() {
     // make the lightbox show up
     lightBox.classList.add('show-lightbox');
 
-    // grab a reference to the current vid in the className object
-    //debugger;
-    //get the className property, split it into its seperate words[an array], and 
-    //then get the last word --> [1] --> that will always be the house name
-    let houseName = this.className.split(" ")[1]
-
-    // capitalize first letter with JS string methods
-    houseName = houseName.charAt(0).toUpperCase() + houseName.slice(1);
-    //B
-    //aratheon --> slice(1)
-    // debugger;
-
     // use JS string interpolation to build the epath to the target video
-    let videoPath = `video/House-${houseName}.mp4`;
+    let videoPath = `video/House-${targetHouse}.mp4`;
 
     // load this new video videoPath
     houseVideo.src = videoPath;
     houseVideo.load();
-
     houseVideo.play();
   }
 
@@ -88,35 +118,16 @@
     houseVideo.pause();
   }
 
-  function animateBanners() {
-    // we need an offset that we can multiply by to animate
-    // our banners to the left and make the active one show up
-
-    let offset = 600,
-        multiplier = this.dataset.offset;
-        // this is the data-offset custom data attribute
-        // on each of the sigils
-    console.log((offset * multiplier) + "px");
-
-    // move the banners to the left using the product of our math
-    bannerImages.style.right = `${offset * multiplier + "px"}`;
-
-     //change the house name on the page at the same time
-    houseName.textContent = "House " + houseData[multiplier];
-
-    // the multiplier is the outer array index (and also the data-offset custom attribute on
-    // the html element -> the shield you're clicking on);
-    // the second [] is the INNER array reference (see waaaaay up at the top) -> 0 is the house name, 1 is the house data
-    houseName.textContent = `House ${houseData[multiplier][0]}`;
-    houseInfo.textContent = houseData[multiplier][1];
-  }
-
-  sigils.forEach(sigil => sigil.addEventListener("click", popLightBox));
-  //sigils.forEach(sigil => sigil.addEventListener("click", animateBanners));
-
+  
+  //sigils.forEach(sigil => sigil.addEventListener("click", popLightBox));
+  sigils.forEach(sigil => sigil.addEventListener("click", animateBanners));
 
   closeButton.addEventListener("click", closeLightBox);
   houseVideo.addEventListener('ended', closeLightBox);
   pauseButton.addEventListener("click", pauseVideo);
   playButton.addEventListener("click", playVideo);
+  rewindButton.addEventListener("click", rewindVideo);
+
+  // lightbox showing up after banner animation
+  bannerImages.addEventListener('transitionend', popLightBox);
 })();
